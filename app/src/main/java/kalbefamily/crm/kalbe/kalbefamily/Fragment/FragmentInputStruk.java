@@ -1,4 +1,4 @@
-package kalbefamily.crm.kalbe.kalbefamily;
+package kalbefamily.crm.kalbe.kalbefamily.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -58,7 +59,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import de.hdodenhof.circleimageview.CircleImageView;
 import kalbefamily.crm.kalbe.kalbefamily.BL.clsActivity;
 import kalbefamily.crm.kalbe.kalbefamily.Common.clsImageStruk;
 import kalbefamily.crm.kalbe.kalbefamily.Common.clsSendData;
@@ -69,11 +69,12 @@ import kalbefamily.crm.kalbe.kalbefamily.Data.VolleyResponseListener;
 import kalbefamily.crm.kalbe.kalbefamily.Data.VolleyUtils;
 import kalbefamily.crm.kalbe.kalbefamily.Data.clsHardCode;
 import kalbefamily.crm.kalbe.kalbefamily.Data.clsHelper;
+import kalbefamily.crm.kalbe.kalbefamily.R;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.clsImageStrukRepo;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.clsTokenRepo;
-import kalbefamily.crm.kalbe.kalbefamily.Repo.clsUserImageProfileRepo;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.clsUserMemberRepo;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.mConfigRepo;
+import kalbefamily.crm.kalbe.kalbefamily.ViewPagerActivity;
 import kalbefamily.crm.kalbe.kalbefamily.addons.volley.VolleyMultipartRequest;
 
 import static android.app.Activity.RESULT_OK;
@@ -87,12 +88,13 @@ public class FragmentInputStruk extends Fragment {
     Context context;
     clsTokenRepo tokenRepo;
     clsUserMemberRepo repoUserMember;
+    boolean boolInputedImage = false;
     clsImageStrukRepo repoImageStruk;
     List<clsToken> dataToken;
     List<clsUserMember> dataMember;
     List<clsImageStruk> dataImageStruk;
 
-    CircleImageView ivStruk;
+    ImageView ivStruk;
     FloatingActionButton addImage;
     Button btnUploadGambar;
     private Uri uriImage, selectedImage;
@@ -110,7 +112,7 @@ public class FragmentInputStruk extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_input_struk, container, false);
         context = getActivity().getApplicationContext();
-        ivStruk = (CircleImageView) v.findViewById(R.id.image_struk);
+        ivStruk = (ImageView) v.findViewById(R.id.image_struk);
         addImage = (FloatingActionButton) v.findViewById(R.id.add_image_struk);
         btnUploadGambar = (Button) v.findViewById(R.id.btnUploadGambar);
 
@@ -131,33 +133,38 @@ public class FragmentInputStruk extends Fragment {
         ivStruk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (phtImage != null) {
-                    File file = new File(Environment.getExternalStorageDirectory() + File.separator + "ImageStruk" + ".png");
-                    file.delete();
-                    FileOutputStream fOut = null;
-                    try {
-                        fOut = new FileOutputStream(file);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                if (boolInputedImage){
+                    if (phtImage != null) {
+                        File file = new File(Environment.getExternalStorageDirectory() + File.separator + "ImageStruk" + ".png");
+                        file.delete();
+                        FileOutputStream fOut = null;
+                        try {
+                            fOut = new FileOutputStream(file);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
 
-                    mybitmap = ((BitmapDrawable)ivStruk.getDrawable()).getBitmap();
-                    mybitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
-                    try {
-                        fOut.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        fOut.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        mybitmap = ((BitmapDrawable)ivStruk.getDrawable()).getBitmap();
+                        mybitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+                        try {
+                            fOut.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            fOut.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                    Intent intent = new Intent(getActivity(), ViewPagerActivity.class);
-                    intent.putExtra("gambar struk", "ImageStruk");
-                    startActivity(intent);
+                        Intent intent = new Intent(getActivity(), ViewPagerActivity.class);
+                        intent.putExtra("gambar struk", "ImageStruk");
+                        startActivity(intent);
+                    }
+                }else{
+                    selectImage();
                 }
+
             }
         });
 
@@ -380,7 +387,7 @@ public class FragmentInputStruk extends Fragment {
                         thePic = tempBitm;
                     }
                 }
-
+                boolInputedImage = true;
                 previewCaptureImage(thePic);
             } else if (resultCode == 0) {
                 new clsActivity().showCustomToast(getContext(), "User batal mengambil gambar", false);
@@ -690,7 +697,7 @@ public class FragmentInputStruk extends Fragment {
 
                             if (result.equals("1")) {
                                 new clsActivity().showToast(context.getApplicationContext(), warn, true);
-                                FragmentInfoContact ContactFragment = new FragmentInfoContact();
+                                FragmentInputStruk  ContactFragment = new FragmentInputStruk ();
                                 FragmentTransaction fragmentTransactionHome = getActivity().getSupportFragmentManager().beginTransaction();
                                 fragmentTransactionHome.replace(R.id.frame, ContactFragment);
                                 fragmentTransactionHome.commit();

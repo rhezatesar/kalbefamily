@@ -1,4 +1,4 @@
-package kalbefamily.crm.kalbe.kalbefamily;
+package kalbefamily.crm.kalbe.kalbefamily.Fragment;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -50,6 +50,8 @@ import kalbefamily.crm.kalbe.kalbefamily.Data.VolleyResponseListener;
 import kalbefamily.crm.kalbe.kalbefamily.Data.VolleyUtils;
 import kalbefamily.crm.kalbe.kalbefamily.Data.clsHardCode;
 import kalbefamily.crm.kalbe.kalbefamily.Data.clsHelper;
+import kalbefamily.crm.kalbe.kalbefamily.HomeMenu;
+import kalbefamily.crm.kalbe.kalbefamily.R;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.clsUserMemberImageRepo;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.clsUserMemberRepo;
 
@@ -755,7 +757,7 @@ public class FragmentPersonalData extends Fragment {
         public static boolean checkPermission(final Context context)
         {
             int currentAPIVersion = Build.VERSION.SDK_INT;
-            if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
+            if(currentAPIVersion>= Build.VERSION_CODES.M)
             {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -791,13 +793,13 @@ public class FragmentPersonalData extends Fragment {
 //        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
 
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto , SELECT_FILE);//one can be replaced with any action code
     }
 
     private void galleryIntent2() {
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto , SELECT_FILE2);//one can be replaced with any action code
     }
 

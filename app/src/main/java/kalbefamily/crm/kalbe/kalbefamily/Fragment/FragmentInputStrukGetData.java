@@ -24,7 +24,6 @@ import java.util.List;
 import kalbefamily.crm.kalbe.kalbefamily.Adapter.ListAdapterNew;
 import kalbefamily.crm.kalbe.kalbefamily.Common.clsImageStruk;
 import kalbefamily.crm.kalbe.kalbefamily.Common.clsUserMember;
-import kalbefamily.crm.kalbe.kalbefamily.FragmentInputStruk;
 import kalbefamily.crm.kalbe.kalbefamily.InputStrukDetailActivity;
 import kalbefamily.crm.kalbe.kalbefamily.R;
 import kalbefamily.crm.kalbe.kalbefamily.Repo.clsImageStrukRepo;
