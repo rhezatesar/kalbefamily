@@ -1,5 +1,6 @@
 package kalbefamily.crm.kalbe.kalbefamily;
 
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -13,11 +14,16 @@ import android.view.WindowManager;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
+import kalbefamily.crm.kalbe.kalbefamily.BL.AuthenticatorUtil;
+
+import static com.oktaviani.dewi.mylibrary.authenticator.AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+
 /**
  * Created by Rian Andrivani on 6/16/2017.
  */
 
 public class IntroActivity extends AppIntro {
+    private AccountManager mAccountManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +31,8 @@ public class IntroActivity extends AppIntro {
         addSlide(SampleSlide.newInstance(R.layout.slide_1));
         addSlide(SampleSlide.newInstance(R.layout.slide_2));
         addSlide(SampleSlide.newInstance(R.layout.slide_3));
+
+        mAccountManager = AccountManager.get(this);
 //        addSlide(AppIntroFragment.newInstance("Intro application", "Kalbe Nutritionals", R.drawable.ic_skip_white, getColor(R.color.colorAccent)));
 
         setFlowAnimation();
@@ -34,17 +42,19 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        Intent intent = new Intent(this, NewMemberActivity.class);
-        finish();
-        startActivity(intent);
+        new AuthenticatorUtil().showAccountPicker(IntroActivity.this, mAccountManager, AUTHTOKEN_TYPE_FULL_ACCESS);
+//        Intent intent = new Intent(this, NewMemberActivity.class);
+//        finish();
+//        startActivity(intent);
     }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
-        Intent intent = new Intent(this, NewMemberActivity.class);
-        finish();
-        startActivity(intent);
+        new AuthenticatorUtil().showAccountPicker(IntroActivity.this, mAccountManager, AUTHTOKEN_TYPE_FULL_ACCESS);
+//        Intent intent = new Intent(this, NewMemberActivity.class);
+//        finish();
+//        startActivity(intent);
     }
 
     @Override
